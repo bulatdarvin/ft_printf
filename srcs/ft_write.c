@@ -38,7 +38,18 @@ void	hash_and_sign(char *str, t_flags *flag, int *i)
 	}
 }
 
-int		ft_width(char *str, t_flags *flag, int *i)
+
+int		sign(intmax_t nb, t_flags *flag)
+{
+	if (nb < 0)
+		ft_write("-", 1, flag);
+	if (flag->plus && nb >= 0)
+		ft_write("+", 1, flag);
+	else if (flag->space && nb >= 0)
+		ft_write(" ", 1, flag);
+	return (1);
+}
+/*int		ft_width(char *str, t_flags *flag, int *i)
 {
 	int width;
 	size_t k;
@@ -49,32 +60,45 @@ int		ft_width(char *str, t_flags *flag, int *i)
 	{
 		if (flag->minus)
 		{
-		//	hash_and_sign(str, flag, i);
-			while (k++ < ft_strlen(str)/* - flag->precision*/)
+			//hash_and_sign(str, flag, i);
+			while (k++ < ft_strlen(str))
 				flag->buffer[flag->bytes++] = str[(*i)++];
 		}
-		while (width++ < flag->width - (int)ft_strlen(str) - flag->hash/* + flag->precision*/)
+		while (width++ < flag->width - (int)ft_strlen(str) - flag->hash)
 			flag->buffer[flag->bytes++] = (flag->zero && !flag->minus) ? '0' : ' ';
 		if (!flag->minus)
 		{
-		//	hash_and_sign(str, flag, i);
-			while (k++ < ft_strlen(str)/* - flag->precision*/)
+			//hash_and_sign(str, flag, i);
+			while (k++ < ft_strlen(str))
 				flag->buffer[flag->bytes++] = str[(*i)++];
 		}
 		flag->width = 0;
 		width--;
 	}
 	return (width);
+}*/
+
+
+
+int		ft_width(char *str, t_flags *flag)
+{
+	int width;
+
+	width = 0;
+	if (flag->width > flag->precision)
+		while (width++ < flag->width - (int)ft_strlen(str))
+			ft_write((flag->zero && !flag->minus) ? "0" : " ", 1, flag);
+	return (width);
 }
 
 int		ft_write(void *s, int size, t_flags *flag)
 {
 	int		i;
-	int		tmp;
+	//int		tmp;
 	char	*str;
-	int		width;
+	//int		width;
 
-	width = 0;
+	//width = 0;
 	i = 0;
 
 	str = (char*)s;
@@ -88,10 +112,10 @@ int		ft_write(void *s, int size, t_flags *flag)
 			return (size);
 		}
 	}
-	tmp = ft_width(str, flag, &i);
+	//tmp = ft_width(str, flag, &i);
 	while (i < size)
 		flag->buffer[flag->bytes++] = str[i++];
-	flag->total_bytes += size + tmp;
+	flag->total_bytes += size;
 	return (size);
 }
 

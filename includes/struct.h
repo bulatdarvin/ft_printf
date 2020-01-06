@@ -27,6 +27,7 @@
 # include <stdarg.h>
 # include <math.h>
 # include <unistd.h>
+# include <inttypes.h>
 
 typedef struct	s_flags
 {
@@ -62,9 +63,10 @@ int			handle_flags(char **str, t_flags *flag);
 void		init_flags(t_flags *flag);
 int			write_until(char **str, t_flags *flag);
 int			ft_write(void *s, int size, t_flags *flag);
-int			ft_width(char *str, t_flags *flag, int *i);
+int			ft_width(char *str, t_flags *flag);
 intmax_t	ft_get_nb(va_list args, t_flags flags);
 uintmax_t	ft_get_nb_u(va_list args, t_flags flags);
+int			sign(intmax_t nb, t_flags *flag);
 int			type_c(va_list arg, t_flags *flag);
 int			type_f(va_list arg, t_flags *flag);
 int     	type_d(va_list arg, t_flags *flag);

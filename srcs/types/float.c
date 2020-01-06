@@ -57,7 +57,6 @@ void    handle_point(double nb, char **str, int *i, int precision)
 
 int     float_string(double nb, char **s, int precision)
 {
-    int mod;
     int neg;
     int size;
     char *str;
@@ -71,7 +70,6 @@ int     float_string(double nb, char **s, int precision)
         nb = -nb;
         neg = 1;
     }
-    mod = calc_len(nb, &size);
     if (!(str = ft_strnew(size + precision + 1)))
         return (0);
     if (neg)

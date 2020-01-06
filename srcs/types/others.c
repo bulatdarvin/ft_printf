@@ -14,9 +14,18 @@
 
 int		type_percent(va_list arg, t_flags *flag)
 {
-	int size;
+	int		width;
 
 	(void)arg;
-	size = ft_write("%", 1, flag);
-	return (1);
+	if (flag->width)
+	{
+		if (flag->minus)
+			ft_write("%", 1, flag);
+		width = 0;
+		while (width++ < flag->width - 1)
+			ft_write((flag->zero && !flag->minus) ? "0" : " ", 1, flag);
+	}
+	if (!flag->width || !flag->minus)
+		ft_write("%", 1, flag);
+	return ((flag->width) ? flag->width : 1);
 }

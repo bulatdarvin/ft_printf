@@ -12,6 +12,8 @@
 
 NAME = libftprintf.a
 
+CC = gcc #-Wall -Wextra -Werror
+
 SRCS_FILES = types/chars.c \
 	  types/float.c \
 	  types/numbers.c \
@@ -55,11 +57,11 @@ $(NAME): $(OBJECTS) $(LIB_OBJECTS)
 $(OBJECTS_PATH)%.o: $(SRCS_PATH)%.c
 	@mkdir $(OBJECTS_PATH) 2>/dev/null || echo "" > /dev/null
 	@mkdir $(OBJECTS_PATH)types 2>/dev/null || echo "" > /dev/null
-	@gcc -Wall -Wextra -Werror $(INCLUDES) -c $< -o $@
+	@$(CC) -c $< -o $@
 
 $(LIB_OBJECTS_PATH)%.o: $(LIB_SRCS_PATH)%.c
 	@mkdir $(LIB_OBJECTS_PATH) 2>/dev/null || echo "" > /dev/null
-	@gcc -Wall -Wextra -Werror $(INCLUDES) -c $< -o $@
+	@$(CC)  -c $< -o $@
 
 clean:
 	@/bin/rm -f $(OBJECTS) 
