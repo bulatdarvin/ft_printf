@@ -13,7 +13,7 @@
 #include "../includes/struct.h"
 
 t_types	g_types[ARG_CNT] = {
-	{'c', type_c}, {'d', type_d}, {'i', type_d}, {'s', type_s}, {'u', type_u}, 
+	{'c', type_char}, {'d', type_d}, {'i', type_d}, {'s', type_s}, {'u', type_u}, 
 	{'o', type_o}, {'x', type_x}, {'X', type_x_upper}, {'f', type_f}, {'%', type_percent}/*{'C', type_c_upper}, {'S', type_s_upper},
 	{'p', type_p},
 	{'D', type_d_upper}, {'O', type_o_upper}, {'U', type_u_upper},

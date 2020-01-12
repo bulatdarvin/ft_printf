@@ -27,10 +27,10 @@ void	init_flags(t_flags *flag)
 
 int		handle_flags(char **str, t_flags *flag)
 {
-	if (**str == '0')
-		flag->zero = 1;
-	else if (**str == '-')
+	if (**str == '-')
 		flag->minus = 1;
+	else if (**str == '0')
+		flag->zero = 1;
 	else if (**str == '+')
 		flag->plus = 1;
 	else if (**str == '#')

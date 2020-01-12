@@ -17,7 +17,7 @@ int		type_percent(va_list arg, t_flags *flag)
 	int		width;
 
 	(void)arg;
-	if (flag->width)
+	/*if (flag->width)
 	{
 		if (flag->minus)
 			ft_write("%", 1, flag);
@@ -27,5 +27,7 @@ int		type_percent(va_list arg, t_flags *flag)
 	}
 	if (!flag->width || !flag->minus)
 		ft_write("%", 1, flag);
-	return ((flag->width) ? flag->width : 1);
+	return ((flag->width) ? flag->width : 1);*/
+	ft_write("%", 1, flag);
+	return (1);
 }

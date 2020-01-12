@@ -12,7 +12,7 @@
 
 #include "../../includes/struct.h"
 
-int     type_c(va_list arg, t_flags *flag)
+int     type_char(va_list arg, t_flags *flag)
 {
     int c;
 	int width;
@@ -26,7 +26,7 @@ int     type_c(va_list arg, t_flags *flag)
 		while (width++ < flag->width - 1)
 			ft_write((flag->zero && !flag->minus) ? "0" : " ", 1, flag);
 	}
-	if (!flag->width && !flag->minus)
+	if (!flag->minus)
 		ft_write(&c, 1, flag);
     return (flag->width ? width : 1);
 }

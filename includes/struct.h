@@ -13,7 +13,6 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 # define BUFF_SIZE 1024
-# define MAX 4294967295
 # define ARG_CNT 10 // 21
 # define FT_ABS(x) ((x < 0) ? (-x):(x))
 # define LENGTH_HH 1
@@ -63,11 +62,11 @@ int			handle_flags(char **str, t_flags *flag);
 void		init_flags(t_flags *flag);
 int			write_until(char **str, t_flags *flag);
 int			ft_write(void *s, int size, t_flags *flag);
-int			ft_width(char *str, t_flags *flag);
+int			ft_width(int size, t_flags *flag);
 intmax_t	ft_get_nb(va_list args, t_flags flags);
 uintmax_t	ft_get_nb_u(va_list args, t_flags flags);
 int			sign(intmax_t nb, t_flags *flag);
-int			type_c(va_list arg, t_flags *flag);
+int			type_char(va_list arg, t_flags *flag);
 int			type_f(va_list arg, t_flags *flag);
 int     	type_d(va_list arg, t_flags *flag);
 int 		type_s(va_list arg, t_flags *flag);
