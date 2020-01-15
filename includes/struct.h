@@ -13,7 +13,7 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 # define BUFF_SIZE 1024
-# define ARG_CNT 10 // 21
+# define ARG_CNT 13// 21
 # define FT_ABS(x) ((x < 0) ? (-x):(x))
 # define LENGTH_HH 1
 # define LENGTH_H 2
@@ -27,6 +27,7 @@
 # include <math.h>
 # include <unistd.h>
 # include <inttypes.h>
+# include <wchar.h>
 
 typedef struct	s_flags
 {
@@ -73,12 +74,16 @@ int 		type_s(va_list arg, t_flags *flag);
 int			type_u(va_list arg, t_flags *flag);
 int			type_o(va_list arg, t_flags *flag);
 int			type_x(va_list arg, t_flags *flag);
+int			type_p(va_list arg, t_flags *flag);
 int			type_percent(va_list arg, t_flags *flag);
 int			type_x_upper(va_list arg, t_flags *flag);
-int     	calc_len(double c, int *size);
-void    	handle_main(double *nb, char **str);
-void    	handle_point(double nb, char **str, int *i, int precision);
-int     	float_string(double nb, char **s, int precision);
+int			type_wchar(va_list arg, t_flags *flag);
+int			type_b(va_list arg, t_flags *flag);
+int     	calc_len(intmax_t c, int *size);
+void    	handle_main(long double *nb, char **str);
+void    	handle_point(long double nb, char **str, int *i, int precision);
+int     	float_string(long double nb, char **s, int precision);
 char		*ft_strcatbeg(char *s1, char *s2);
+int			write_char(char c, t_flags *flag);
 
 #endif

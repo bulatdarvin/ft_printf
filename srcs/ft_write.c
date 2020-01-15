@@ -28,7 +28,6 @@ int		ft_width(int size, t_flags *flag)
 	int width;
 
 	width = 0;
-	//if (flag->width > flag->precision)
 		while (width++ < flag->width - size)
 			ft_write((flag->zero && !flag->minus) ? "0" : " ", 1, flag);
 	return (width - 1);
@@ -37,11 +36,8 @@ int		ft_width(int size, t_flags *flag)
 int		ft_write(void *s, int size, t_flags *flag)
 {
 	int		i;
-	//int		tmp;
 	char	*str;
-	//int		width;
 
-	//width = 0;
 	i = 0;
 
 	str = (char*)s;
@@ -55,7 +51,6 @@ int		ft_write(void *s, int size, t_flags *flag)
 			return (size);
 		}
 	}
-	//tmp = ft_width(str, flag, &i);
 	while (i < size)
 		flag->buffer[flag->bytes++] = str[i++];
 	flag->total_bytes += size;
@@ -65,12 +60,22 @@ int		ft_write(void *s, int size, t_flags *flag)
 int		write_until(char **str, t_flags *flag)
 {
 	int next;
-
-	if (ft_strchr(*str, '%'))
-		next = (int)(ft_strchr(*str, '%') - *str);
-	else
-		next = (int)ft_strlen(*str);
-	ft_write(*str, next, flag);
-	*str += next;
+	
+	next = 0;
+	while (**str != '%' && **str != '\0')
+	{
+		next++;
+		next += color(str, flag);
+		if (!(**str))
+			break ;
+		if (ft_strnequ(*str, "{eoc}", 5))
+		{
+			ft_write("\x1b[0m", 5, flag);
+			*str = *str + 5;
+			next = next + 5;
+		}
+		ft_write(*str, 1, flag);
+		(*str)++;
+	}
 	return (next);
 }

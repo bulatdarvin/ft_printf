@@ -70,7 +70,7 @@ char	*ft_strcatbeg(char *s1, char *s2)
 	int i;
 
 	i = 0;
-	tmp = ft_strnew(ft_strlen(s1) + ft_strlen(s2) + 1);
+	tmp = ft_strnew(ft_strlen(s1) + ft_strlen(s2));
 	while (s1[i] != '\0')
 	{
 		tmp[i] = s1[i];

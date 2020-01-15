@@ -13,22 +13,27 @@
 #include "../../includes/struct.h"
 int		type_u(va_list arg, t_flags *flag)
 {
-	return(help_to_base(arg, flag, 10, NULL));
+	return (help_to_base(arg, flag, 10, NULL));
 }
 
 int		type_x(va_list arg, t_flags *flag)
 {
-	return(help_to_base(arg, flag, 16, "0x"));
+	return (help_to_base(arg, flag, 16, "0x"));
 }
 
 int		type_x_upper(va_list arg, t_flags *flag)
 {
-	return(help_to_base(arg, flag, 16, "0X"));
+	return (help_to_base(arg, flag, 16, "0X"));
 }
 
 int		type_o(va_list arg, t_flags *flag)
 {
-	return(help_to_base(arg, flag, 8, "0"));
+	return (help_to_base(arg, flag, 8, "0"));
+}
+
+int		type_b(va_list arg, t_flags *flag)
+{
+	return (help_to_base(arg, flag, 2, "0"));
 }
 
 int		write_d(char *a, int size, int precision, t_flags *flag, intmax_t nb)
@@ -71,6 +76,7 @@ int     type_d(va_list arg, t_flags *flag)
 
     size = write_d(a, size, precision, flag, nb);
 	size = (flag->minus) ? ft_width(size, flag) : size;
+	free(a);
     return (size);
 }
 
@@ -79,8 +85,12 @@ char	*ft_strlow(char *a)
 	int i;
 
 	i = 0;
-	while (i < ft_strlen(a))
-		a[i] = ft_tolower(a[i++]);
+	while (a[i] != '\0')
+	{
+		if (a[i] <= 'Z' && a[i] >= 'A')
+			a[i] = a[i] + 32;
+		i++;
+	}
 	return (a);
 }
 
@@ -93,6 +103,7 @@ void	pad(char *a, t_flags *flag, char *hash_key, int size, int nb)
 		return ;
 	precision = flag->precision - ft_strlen(a);
 	precision = (flag->precision > ft_strlen(a)) ? precision : 0;
+	precision -= ((!flag->width && flag->hash && nb != 0 && flag->type == 'o') ? ft_strlen(hash_key) : 0);
 	size = (flag->precision == -1) ? size : size + precision;
 	width = 0;
 	while (flag->minus && width++ < precision)
@@ -105,16 +116,13 @@ void	pad(char *a, t_flags *flag, char *hash_key, int size, int nb)
 		ft_write("0", 1, flag);
 }
 
-int		help_to_base(va_list arg, t_flags *flag, int base, char *hash_key)
+int		help_to_base(va_list arg, t_flags *flag, uintmax_t base, char *hash_key)
 {
 	int size;
-	intmax_t nb;
+	uintmax_t nb;
 	char *a;
 
-	if (hash_key)
-		nb = ft_get_nb(arg, *flag);
-	else
-		nb = ft_get_nb_u(arg, *flag);
+	nb = ft_get_nb_u(arg, *flag);
 	a = ft_itoa_base(nb, base);
 	if (flag->type == 'x')
 		a = ft_strlow(a);
@@ -122,13 +130,65 @@ int		help_to_base(va_list arg, t_flags *flag, int base, char *hash_key)
 		ft_write(hash_key, ft_strlen(hash_key), flag);
 	flag->width = (nb == 0) ? flag->width + 1 : flag->width; 
 	size = (flag->hash) ? (ft_strlen(a) + ft_strlen(hash_key)) : ft_strlen(a);
-//	ft_putnbr(size);
-//	ft_putchar('\n');
 	pad(a, flag, hash_key, size, nb);
 	if (flag->hash && !flag->minus && flag->width && nb != 0 && !flag->zero)
 		ft_write(hash_key, ft_strlen(hash_key), flag);
-	if (!flag->minus && flag->precision != -1)
+	if (!flag->minus &&  ((nb != 0) || (nb == 0 && flag->precision != -1)))
 		ft_write(a, ft_strlen(a), flag);
+	free(a);
 	return(ft_strlen(a));
 }
 
+void		ft_display_padding(t_flags *flag, uintmax_t nb, int *size, char *a)
+{
+	int			width;
+	int			precision;
+
+	width = 0;
+	precision = flag->precision - *size;
+	*size = (flag->precision > *size) ? flag->precision : *size;
+	while (nb != 0 && flag->minus && width++ < precision && nb != 0)
+		ft_write("0", 1, flag);
+	if (flag->minus && flag->precision != -1)
+		ft_write(a, ft_strlen(a), flag);
+	width = 0;
+	ft_width(*size + (nb == 0 ? 0 : 2), flag);
+	width = 0;
+	while (!flag->minus && width++ < precision)
+		ft_write("0", 1, flag);
+	*size += 2;
+}
+
+
+int			type_p(va_list args, t_flags *flag)
+{
+	int			size;
+	uintmax_t	nb;
+	int			tmp;
+	char *a;
+
+	flag->zero = (flag->precision) ? 0 : flag->zero;
+	flag->length_type = LENGTH_L;
+	nb = ft_get_nb_u(args, *flag);
+	tmp = 0;
+	if (nb == 0)
+	{
+		a = ft_strnew(5);
+		a = "(nil)";
+	}
+	else
+		a = ft_itoa_base(nb, 16);
+	a = ft_strlow(a);
+	size = ft_strlen(a);
+	if ((!flag->width || flag->minus || flag->zero || flag->precision > size) && nb != 0)
+	{
+		tmp = 1;
+		ft_write("0x", 2, flag);
+	}
+	ft_display_padding(flag, nb, &size, a);
+	if (tmp == 0 && nb != 0)
+		ft_write("0x", 2, flag);
+	if (!flag->width || !flag->minus)
+		ft_write(a, ft_strlen(a), flag);
+	return (flag->width - size > 0 ? flag->width : size);
+}

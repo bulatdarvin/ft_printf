@@ -52,6 +52,14 @@ int		handle_width(char **str, t_flags *flag, va_list args)
 		if (**str == '*')
 		{
 			width = va_arg(args, int);
+			if (ft_isdigit(*(*str + 1)))
+			{
+				ft_write("%", 1, flag);
+				(*str)++;
+				ft_write(ft_itoa(width), ft_strlen(ft_itoa(width)), flag);
+				write_until(str, flag);
+				return (0);
+			}
 			if (width < 0)
 				flag->minus = 1;
 			flag->width = (width < 0 ? (-width):(width));
@@ -79,6 +87,14 @@ int		handle_precision(char **str, t_flags *flag, va_list args)
 			return (1);
 		}
 		presicion = (**str == '*' ? va_arg(args, int) : ft_atoi(*str));
+		if (**str == '*' && ft_isdigit(*(*str + 1)))
+		{
+			ft_write("%.", 2, flag);
+			ft_write(ft_itoa(presicion), ft_strlen(ft_itoa(presicion)), flag);
+			(*str)++;;
+			write_until(str, flag);
+			return (0);
+		}
 		flag->precision = (presicion == 0 ? -1 : presicion);
 		if (flag->precision < 0 && flag->precision != -1)
 			flag->precision = 0;
@@ -101,8 +117,12 @@ int 	handle_length(char **str, t_flags *flag)
 		edit_length(str, flag, LENGTH_H, 1);
 	else if (**str == 'l' && *(*str + 1) == 'l')
 		edit_length(str, flag, LENGTH_LL, 2);
+	else if (**str == 'L')
+		edit_length(str, flag, LENGTH_LL, 1);
 	else if (**str == 'l')
 		edit_length(str, flag, LENGTH_L, 1);
+	else if (**str == 'l')
+		(*str)++;
 	else if (**str =='j')
 		edit_length(str, flag, LENGTH_J, 1);
 	else if (**str == 'z')

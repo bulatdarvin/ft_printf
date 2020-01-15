@@ -18,6 +18,7 @@ SRCS_FILES = types/chars.c \
 	  types/float.c \
 	  types/numbers.c \
 	  types/others.c \
+	  types/wchars.c \
 	  flag.c \
 	  ft_write.c \
 	  main.c \
@@ -107,7 +108,6 @@ LIB_OBJECTS=$(addprefix $(LIB_OBJECTS_PATH), $(LIB_OBJECTS_FILES))
 all: $(NAME)
 
 $(NAME): $(OBJECTS) $(LIB_OBJECTS)
-	#@make -C libft all
 	@ar rc $(NAME) $(OBJECTS) $(LIB_OBJECTS)
 
 $(OBJECTS_PATH)%.o: $(SRCS_PATH)%.c
@@ -124,10 +124,8 @@ clean:
 	@/bin/rm -rf $(OBJECTS_PATH) 
 	@/bin/rm -f *.h.gch
 	@/bin/rm -f .*.swp
-	#@make -C libft clean
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	#@make -C libft fclean
 
 re: fclean all

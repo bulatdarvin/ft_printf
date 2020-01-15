@@ -13,11 +13,9 @@
 #include "../includes/struct.h"
 
 t_types	g_types[ARG_CNT] = {
-	{'c', type_char}, {'d', type_d}, {'i', type_d}, {'s', type_s}, {'u', type_u}, 
-	{'o', type_o}, {'x', type_x}, {'X', type_x_upper}, {'f', type_f}, {'%', type_percent}/*{'C', type_c_upper}, {'S', type_s_upper},
-	{'p', type_p},
-	{'D', type_d_upper}, {'O', type_o_upper}, {'U', type_u_upper},
-	{'a', type_a}, {'A', type_a_upper}, {'b', type_b}, {'n', type_n}*/ 
+	{'c', type_char}, {'d', type_d}, {'i', type_d}, {'s', type_s}, {'u', type_u},
+	{'o', type_o}, {'x', type_x}, {'X', type_x_upper}, {'f', type_f}, {'%', type_percent}, {'p', type_p}, 
+	{'b', type_b}, {'r', type_wchar}
 };
 
 int		call_type(char **str, va_list args, t_flags *flag)
@@ -35,14 +33,10 @@ int		call_type(char **str, va_list args, t_flags *flag)
 		}
 		arg++;
 	}
-	if (arg == ARG_CNT)
-	{
-		flag->buffer[flag->bytes++] = **str;
-		flag->total_bytes++;
-	}
-	*str += 1;
+	(*str)++;
 	return (1);
 }
+
 
 int		handle(char **str, va_list arg, t_flags *flag)
 {
@@ -57,8 +51,40 @@ int		handle(char **str, va_list arg, t_flags *flag)
 			found = 1;
 		if (ft_isalpha(**str) || **str == '%')
 			return (call_type(str, arg, flag));
+		if (found == 0 && *(*str - 1) == '%')
+			return (-1);
 		if (*(*str + 1) == '\0' || found == 0)
 			return (0);
+	}
+	return (0);
+}
+
+int	color(char **str, t_flags *flag)
+{
+	int i;
+	char *tmp;
+
+	i = 0;
+	if (**str == '{' && !ft_strnequ(*str, "{eoc}", 5))
+	{
+		if (ft_strnequ(*str, "{red}", 5))
+			ft_write("\x1b[31m", 5, flag);
+		else if (ft_strnequ(*str, "{green}", 7))
+			ft_write("\x1b[32m", 5, flag);
+		else if (ft_strnequ(*str, "{yellow}", 9))
+			ft_write("\x1b[33", 5, flag);
+		else if (ft_strnequ(*str, "{blue}", 6))
+			ft_write("\x1b[34m", 5, flag);
+		else if (ft_strnequ(*str, "{magneta}", 9))
+			ft_write("\x1b[35m", 5, flag);
+		else if (ft_strnequ(*str, "{cyan}", 6))
+			ft_write("\x1b[36m", 5, flag);
+		else
+			return (0);
+		while (**str != '}')
+			(*str)++;
+		(*str)++;
+		return (5);
 	}
 	return (0);
 }
@@ -78,11 +104,15 @@ int		ft_printf(const char *format, ...)
 	while (*str)
 		if (*str == '%')
 		{
+			if (ft_strlen(str) == 1)
+				return	(-1);
 			str++;
-			bytes += handle(&str, argc, &flags);
+			bytes = handle(&str, argc, &flags);
+			if (bytes == -1)
+				ft_write("%", 1, &flags);
 		}
 		else
-			bytes += write_until(&str, &flags);
+			bytes = write_until(&str, &flags);
 	va_end(argc);
 	if (flags.bytes > 0)
 		write(1, flags.buffer, flags.bytes);
