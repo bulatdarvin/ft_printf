@@ -12,7 +12,7 @@
 
 #include "../includes/struct.h"
 
-intmax_t	ft_get_nb(va_list args, t_flags flags)
+intmax_t		ft_get_nb(va_list args, t_flags flags)
 {
 	intmax_t	nbr;
 
@@ -34,7 +34,7 @@ intmax_t	ft_get_nb(va_list args, t_flags flags)
 	return (nbr);
 }
 
-uintmax_t	ft_get_nb_u(va_list args, t_flags flags)
+uintmax_t		ft_get_nb_u(va_list args, t_flags flags)
 {
 	uintmax_t	nbr;
 
@@ -56,18 +56,17 @@ uintmax_t	ft_get_nb_u(va_list args, t_flags flags)
 	return (nbr);
 }
 
-void	edit_length(char **str, t_flags *flag, int c, int size)
+void			edit_length(char **str, t_flags *flag, int c, int size)
 {
 	*str += size;
-
 	if (flag->length_type < c)
 		flag->length_type = c;
 }
 
-char	*ft_strcatbeg(char *s1, char *s2)
+char			*ft_strcatbeg(char *s1, char *s2)
 {
-	char *tmp;
-	int i;
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	tmp = ft_strnew(ft_strlen(s1) + ft_strlen(s2));
@@ -83,4 +82,18 @@ char	*ft_strcatbeg(char *s1, char *s2)
 	}
 	tmp[i] = '\0';
 	return (tmp);
+}
+
+char			*ft_strlow(char *a)
+{
+	int i;
+
+	i = 0;
+	while (a[i] != '\0')
+	{
+		if (a[i] <= 'Z' && a[i] >= 'A')
+			a[i] = a[i] + 32;
+		i++;
+	}
+	return (a);
 }

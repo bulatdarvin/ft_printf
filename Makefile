@@ -12,13 +12,16 @@
 
 NAME = libftprintf.a
 
-CC = gcc #-Wall -Wextra -Werror
+CC = gcc -Wall -Wextra -Werror
 
 SRCS_FILES = types/chars.c \
 	  types/float.c \
 	  types/numbers.c \
 	  types/others.c \
 	  types/wchars.c \
+	  types/help_to_numbers.c \
+	  types/longs.c \
+	  types/wstring.c \
 	  flag.c \
 	  ft_write.c \
 	  main.c \
@@ -124,6 +127,7 @@ clean:
 	@/bin/rm -rf $(OBJECTS_PATH) 
 	@/bin/rm -f *.h.gch
 	@/bin/rm -f .*.swp
+	@/bin/rm -f $(LIB_SRCS:.c=.o)
 
 fclean: clean
 	@/bin/rm -f $(NAME)

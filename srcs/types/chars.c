@@ -12,12 +12,12 @@
 
 #include "../../includes/struct.h"
 
-int     type_char(va_list arg, t_flags *flag)
+int		type_char(va_list arg, t_flags *flag)
 {
-    int c;
+	int c;
 	int width;
 
-    c = va_arg(arg, int);
+	c = va_arg(arg, int);
 	width = 0;
 	if (flag->width)
 	{
@@ -28,14 +28,12 @@ int     type_char(va_list arg, t_flags *flag)
 	}
 	if (!flag->minus)
 		ft_write(&c, 1, flag);
-    return (flag->width ? width : 1);
+	return (flag->width ? width : 1);
 }
 
-
-int 	type_s(va_list arg, t_flags *flag)
+int		type_s(va_list arg, t_flags *flag)
 {
 	char	*s;
-	int		width;
 	int		size;
 
 	s = va_arg(arg, char*);
@@ -46,15 +44,15 @@ int 	type_s(va_list arg, t_flags *flag)
 	size = (flag->precision == -1) ? 0 : size;
 	if (flag->precision > 0 && flag->precision < size && size > 0)
 		size = flag->precision;
-	if (flag->width)
+	if (flag->width && s)
 	{
 		if (flag->minus)
 			ft_write(s, size, flag);
-		width = 0;
-		while (width++ < flag->width - size)
-			ft_write((flag->zero && !flag->minus) ? "0" : " ", 1, flag);
+		ft_width(size, flag);
 	}
-	if (!flag->width || !flag->minus)
+	if (flag->width <= 0 || !flag->minus || !s)
 		ft_write((s) ? s : "(null)", size, flag);
+	if (!s)
+		ft_width(size, flag);
 	return (size + (flag->width - size > 0 ? flag->width - size : 0));
 }

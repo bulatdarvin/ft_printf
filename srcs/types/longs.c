@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   others.c                                           :+:      :+:    :+:   */
+/*   longs.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssilvana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/27 18:51:15 by ssilvana          #+#    #+#             */
-/*   Updated: 2019/12/27 18:51:18 by ssilvana         ###   ########.fr       */
+/*   Created: 2020/01/18 19:37:42 by ssilvana          #+#    #+#             */
+/*   Updated: 2020/01/18 19:37:44 by ssilvana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/struct.h"
 
-int		type_percent(va_list arg, t_flags *flag)
+int		type_u_upper(va_list args, t_flags *flags)
 {
-	int		width;
-
-	(void)arg;
-	if (flag->width)
-	{
-		if (flag->minus)
-			ft_write("%", 1, flag);
-		width = 0;
-		while (width++ < flag->width - 1)
-			ft_write((flag->zero && !flag->minus) ? "0" : " ", 1, flag);
-	}
-	if (!flag->width || !flag->minus)
-		ft_write("%", 1, flag);
-	return ((flag->width) ? flag->width : 1);
+	flags->length_type = LENGTH_L;
+	return (type_u(args, flags));
 }
 
-int		type_b(va_list arg, t_flags *flag)
+int		type_d_upper(va_list args, t_flags *flags)
 {
-	return (help_to_base(arg, flag, 2, "0"));
+	flags->length_type = LENGTH_L;
+	return (type_d(args, flags));
+}
+
+int		type_o_upper(va_list args, t_flags *flags)
+{
+	flags->length_type = LENGTH_L;
+	return (type_o(args, flags));
 }

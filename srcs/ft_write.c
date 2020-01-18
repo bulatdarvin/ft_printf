@@ -28,8 +28,8 @@ int		ft_width(int size, t_flags *flag)
 	int width;
 
 	width = 0;
-		while (width++ < flag->width - size)
-			ft_write((flag->zero && !flag->minus) ? "0" : " ", 1, flag);
+	while (width++ < flag->width - size)
+		ft_write((flag->zero && !flag->minus) ? "0" : " ", 1, flag);
 	return (width - 1);
 }
 
@@ -39,7 +39,6 @@ int		ft_write(void *s, int size, t_flags *flag)
 	char	*str;
 
 	i = 0;
-
 	str = (char*)s;
 	if (flag->bytes + size > BUFF_SIZE)
 	{
@@ -60,7 +59,7 @@ int		ft_write(void *s, int size, t_flags *flag)
 int		write_until(char **str, t_flags *flag)
 {
 	int next;
-	
+
 	next = 0;
 	while (**str != '%' && **str != '\0')
 	{
