@@ -12,17 +12,17 @@
 
 #include "../../includes/struct.h"
 
-int		write_char(char c, t_flags *flag)
+int			write_char(char c, t_flags *flag)
 {
 	return (ft_write(&c, 1, flag));
 }
 
-int		type_wchar(va_list arg, t_flags *flag)
+int			type_wchar(va_list arg, t_flags *flag)
 {
 	return (write_wchar(va_arg(arg, wint_t), flag));
 }
 
-int		write_wchar(wint_t num, t_flags *flag)
+int			write_wchar(wint_t num, t_flags *flag)
 {
 	int size;
 
@@ -48,4 +48,9 @@ int		write_wchar(wint_t num, t_flags *flag)
 		size += write_char((char)(num & 0x3F) + 0x80, flag);
 	}
 	return (size);
+}
+
+intmax_t	ft_abs(intmax_t a)
+{
+	return (a > 0 ? a : -a);
 }

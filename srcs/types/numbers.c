@@ -39,7 +39,7 @@ int		type_d(va_list arg, t_flags *flag)
 	char		*a;
 
 	nb = ft_get_nb(arg, *flag);
-	a = ft_itoa(FT_ABS(nb));
+	a = ft_itoa(ft_abs(nb));
 	if (flag->precision != 0)
 		flag->zero = 0;
 	size = (flag->precision > (int)ft_strlen(a)) ?

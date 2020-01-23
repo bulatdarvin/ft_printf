@@ -12,9 +12,7 @@
 
 #ifndef STRUCT_H
 # define STRUCT_H
-# define BUFF_SIZE 1024
 # define ARG_CNT 17
-# define FT_ABS(x) ((x < 0) ? (-x):(x))
 # define LENGTH_HH 1
 # define LENGTH_H 2
 # define LENGTH_LL 4
@@ -97,5 +95,6 @@ int				write_wchar(wint_t num, t_flags *flag);
 void			p_padding(t_flags *flag, uintmax_t nb, int *size, char *a);
 void			pad(char *a, t_flags *flag, char *hash_key, int nb);
 int				write_d(char *a, int size, t_flags *flag, intmax_t nb);
+intmax_t		ft_abs(intmax_t a);
 
 #endif

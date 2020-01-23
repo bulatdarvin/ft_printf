@@ -99,7 +99,8 @@ LIB_SRCS_FILES= ft_memset.c \
 	  ft_lstmap.c \
 	  ft_sqrt.c \
 	  ft_memdeltab.c \
-	  ft_itoa_base.c
+	  ft_itoa_base.c \
+	  get_next_line.c
 
 
 LIB_SRCS=$(addprefix $(LIB_SRCS_PATH), $(LIB_SRCS_FILES))
